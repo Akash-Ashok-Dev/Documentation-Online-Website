@@ -1,51 +1,56 @@
-const addBtn = document.getElementById("addBtn");
-const notesList = document.getElementById("notesList");
-const noteModal = document.getElementById("noteModal");
-const modalTitle = document.getElementById("modalTitle");
-const modalBody = document.getElementById("modalBody");
-const closeModal = document.getElementById("closeModal");
+// ✅ Import Firebase SDK modules directly from CDN
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-let notes = JSON.parse(localStorage.getItem("notes")) || [];
+// ✅ Your Firebase config (replace placeholders with your real project values)
+const firebaseConfig = {
+  apiKey: "AIzaSyXXXXXX-XXXXXXX",
+  authDomain: "thelifetimedocumentsaver.firebaseapp.com",
+  projectId: "thelifetimedocumentsaver",
+  storageBucket: "thelifetimedocumentsaver.appspot.com",
+  messagingSenderId: "176286072818",
+  appId: "1:176286072818:web:abcd1234efgh5678"
+};
 
-function saveNotes() {
-  localStorage.setItem("notes", JSON.stringify(notes));
-}
 
-function renderNotes() {
-  notesList.innerHTML = "";
-  notes.forEach((note, index) => {
-    const noteDiv = document.createElement("div");
-    noteDiv.classList.add("note");
-    noteDiv.textContent = note.title;
-    noteDiv.onclick = () => openNote(note);
-    notesList.appendChild(noteDiv);
-  });
-}
+// ✅ Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth(app);
 
-function openNote(note) {
-  modalTitle.textContent = note.title;
-  modalBody.textContent = note.body;
-  noteModal.style.display = "block";
-}
+// --- Example: Firestore ---
+// Function to add a user to Firestore
+import { collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-addBtn.onclick = () => {
-  const title = prompt("Enter note title:");
-  const body = prompt("Enter note body:");
-  if (title && body) {
-    notes.push({ title, body });
-    saveNotes();
-    renderNotes();
+async function addUser(name, email) {
+  try {
+    const docRef = await addDoc(collection(db, "users"), {
+      name: name,
+      email: email,
+      createdAt: new Date()
+    });
+    console.log("✅ User added with ID: ", docRef.id);
+  } catch (e) {
+    console.error("❌ Error adding user: ", e);
   }
-};
+}
 
-closeModal.onclick = () => {
-  noteModal.style.display = "none";
-};
+// Example: call addUser (you can trigger this on a button click later)
+addUser("Test User", "test@example.com");
 
-window.onclick = (event) => {
-  if (event.target === noteModal) {
-    noteModal.style.display = "none";
+// --- Example: Auth ---
+// (optional: just showing usage)
+import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+async function signUp(email, password) {
+  try {
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    console.log("✅ Signed up:", userCredential.user);
+  } catch (error) {
+    console.error("❌ Error signing up:", error.message);
   }
-};
+}
 
-renderNotes();
+// Example signup call
+// signUp("demo@example.com", "password123");
