@@ -3,14 +3,15 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/fireba
 import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-// ✅ Your Firebase config (replace placeholders with your real project values)
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyXXXXXX-XXXXXXX",
-  authDomain: "thelifetimedocumentsaver.firebaseapp.com",
-  projectId: "thelifetimedocumentsaver",
-  storageBucket: "thelifetimedocumentsaver.appspot.com",
+  apiKey: "AIzaSyCctrgpX7Ms68D8G8IcP9wN-5TGd4TENEY",
+  authDomain: "thelifetime-documentsaver.firebaseapp.com",
+  projectId: "thelifetime-documentsaver",
+  storageBucket: "thelifetime-documentsaver.firebasestorage.app",
   messagingSenderId: "176286072818",
-  appId: "1:176286072818:web:abcd1234efgh5678"
+  appId: "1:176286072818:web:be5001e1bbb3a3db3a356b",
+  measurementId: "G-CJ7JY357W0"
 };
 
 
